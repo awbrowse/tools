@@ -1,0 +1,463 @@
+<!--
+Copyright 2025 The Chromium Authors
+Use of this source code is governed by a BSD-style license that can be
+found in the LICENSE file.
+-->
+
+<!--
+This file is used to generate a comprehensive list of Actor histograms
+along with a detailed description for each histogram.
+
+For best practices on writing histogram descriptions, see
+https://chromium.googlesource.com/chromium/src.git/+/HEAD/tools/metrics/histograms/README.md
+
+Please follow the instructions in the OWNERS file in this directory to find a
+reviewer. If no OWNERS file exists, please consider signing up at
+go/reviewing-metrics (Googlers only), as all subdirectories are expected to
+have an OWNERS file. As a last resort you can send the CL to
+chromium-metrics-reviews@google.com.
+-->
+
+<histogram-configuration>
+
+<histograms>
+
+<!-- LINT.IfChange(ActorTaskState) -->
+
+<variants name="ActorTaskState">
+  <variant name="Acting" summary="Acting"/>
+  <variant name="Cancelled" summary="Cancelled"/>
+  <variant name="Created" summary="Created"/>
+  <variant name="Failed" summary="Failed"/>
+  <variant name="Finished" summary="Finished"/>
+  <variant name="PausedByActor" summary="PausedByActor"/>
+  <variant name="PausedByUser" summary="PausedByUser"/>
+  <variant name="Reflecting" summary="Reflecting"/>
+  <variant name="WaitingOnUser" summary="WaitingOnUser"/>
+</variants>
+
+<!-- LINT.ThenChange(//chrome/browser/actor/actor_task.h:State) -->
+
+<!-- LINT.IfChange(StoppedReason) -->
+
+<variants name="StoppedReason">
+  <variant name="Cancelled" summary="Stopped by user."/>
+  <variant name="ChromeFailure"
+      summary="Some error in chrome caused the task to stop."/>
+  <variant name="Completed" summary="Completed."/>
+  <variant name="ModelError" summary="Model error."/>
+  <variant name="NewChat" summary="User selected a new chat."/>
+  <variant name="PreviousChat" summary="User selected a previous chat."/>
+  <variant name="Shutdown" summary="Chrome was being shut down."/>
+  <variant name="TabDetached" summary="The acting tab was closed."/>
+</variants>
+
+<!-- LINT.ThenChange(//chrome/browser/actor/actor_task.h:StoppedReason) -->
+
+<!-- LINT.IfChange(ToolRequest) -->
+
+<variants name="ToolRequest">
+  <variant name="ActivateTab" summary="Activate Tab"/>
+  <variant name="ActivateWindow" summary="Activate Window"/>
+  <variant name="AttemptFormFilling" summary="Attempt Form Filling"/>
+  <variant name="AttemptLogin" summary="Attempt Login"/>
+  <variant name="Click" summary="Click"/>
+  <variant name="CloseTab" summary="Close Tab"/>
+  <variant name="CloseWindow" summary="Close Window"/>
+  <variant name="CreateTab" summary="Create Tab"/>
+  <variant name="CreateWindow" summary="Create Window"/>
+  <variant name="DragAndRelease" summary="Drag And Release"/>
+  <variant name="History" summary="History"/>
+  <variant name="MediaControl" summary="Media Control"/>
+  <variant name="MoveMouse" summary="MoveMouse"/>
+  <variant name="Navigate" summary="Navigate"/>
+  <variant name="ScriptTool" summary="ScriptTool"/>
+  <variant name="Scroll" summary="Scroll"/>
+  <variant name="ScrollTo" summary="Scroll To"/>
+  <variant name="Select" summary="Select"/>
+  <variant name="Type" summary="Type"/>
+  <variant name="Wait" summary="Wait"/>
+</variants>
+
+<!-- LINT.ThenChange(//chrome/browser/actor/tool_request_variant.h:ToolRequestVariant) -->
+
+<!-- LINT.IfChange(UiEvent) -->
+
+<variants name="UiEvent">
+  <variant name="MouseClick" summary="MouseClick UiEvent"/>
+  <variant name="MouseMove" summary="MouseMove UiEvent"/>
+  <variant name="StartingToActOnTab" summary="StartingToActOnTab UiEvent"/>
+  <variant name="StartTask" summary="StartTask UiEvent"/>
+  <variant name="StoppedActingOnTab" summary="StoppedActingOnTab UiEvent"/>
+  <variant name="TaskStateChanged" summary="TaskStateChanged UiEvent"/>
+</variants>
+
+<!-- LINT.ThenChange(//chrome/browser/actor/ui/ui_event_debugstring.h:GetUiEventName) -->
+
+<histogram name="Actor.DomNodeGeometry.GetDomNodeResult"
+    enum="GetDomNodeResult" expires_after="2026-08-11">
+  <owner>kmg@google.com</owner>
+  <owner>boujane@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    The result of trying to resolve a DomNode's geometry. Recorded when
+    PageTargets are converted.
+  </summary>
+</histogram>
+
+<histogram name="Actor.EventDispatcher.ComputedTargetResult"
+    enum="ComputedTargetResult" expires_after="2026-08-11">
+  <owner>kmg@google.com</owner>
+  <owner>boujane@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    The result of trying to convert a DomNode to a gfx::Point. Recorded when
+    PageTargets are converted.
+  </summary>
+</histogram>
+
+<histogram name="Actor.EventDispatcher.ModelPageTargetType"
+    enum="ModelPageTargetType" expires_after="2026-08-11">
+  <owner>kmg@google.com</owner>
+  <owner>boujane@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    The type of the PageTarget specified by the model. Recorded when PageTargets
+    are converted from DomNode to gfx::Point.
+  </summary>
+</histogram>
+
+<histogram name="Actor.EventDispatcher.{UiEvent}.Duration" units="microseconds"
+    expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Records the duration of time it takes for a UI event to complete.
+
+    Note that this metric is only recorded on clients on which a high-resolution
+    clock is available.
+  </summary>
+  <token key="UiEvent" variants="UiEvent"/>
+</histogram>
+
+<histogram name="Actor.EventDispatcher.{UiEvent}.Failure" enum="Boolean"
+    expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>Recorded when a UI event fails.</summary>
+  <token key="UiEvent" variants="UiEvent"/>
+</histogram>
+
+<histogram name="Actor.ExecutionEngine.Action.ResultCode"
+    enum="ActionResultCode" expires_after="2026-08-11">
+  <owner>kmg@google.com</owner>
+  <owner>boujane@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Recorded just before ActionResultCallback within ExecutionEngine. Reports
+    the result codes of completed actions.
+  </summary>
+</histogram>
+
+<histogram name="Actor.MayOriginGatePageTransition" enum="Boolean"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records whether a page transition for a cross-origin navigation would have
+    had origin gating, a safety feature which ensures the actor only interacts
+    with trusted origins, is applied. We origin gate cross-origin client-
+    initiated redirects and server redirects on the last link of the redirect
+    chain.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.AllowListSize" units="origins"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records the size of the allow list of origins which the actor can navigate
+    to for the given task. These origins come from server actions or when a
+    navigation confirmation request is granted. Recorded at the end of every
+    task.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.AppliedGate" enum="Boolean"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records whether navigation gating was applied when the actor tried to
+    navigate the main frame. True means that gating was applied and the
+    navigation was deferred until confirmation. False means the navigation was
+    allowed to continue without gating. Recorded whenever the actor navigates
+    the main frame.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.ConfirmedListSize" units="origins"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records the size of the list of sensitive origins on the optimization guide
+    blocklist that the user confirmed the actor can interact with. Recorded at
+    the end of every task.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.CrossOrigin" enum="Boolean"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records when actor navigation gating is applied to a cross-origin
+    navigation. Recorded when the actor navigates the main frame and origin
+    gating applies.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.CrossSite" enum="Boolean"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records when actor navigation gating is applied to a cross-site navigation.
+    Recorded when the actor navigates the main frame and origin gating applies.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.GatingDecision" enum="GatingDecision"
+    expires_after="2026-03-30">
+  <owner>tquintanilla@google.com</owner>
+  <owner>dylancutler@google.com</owner>
+  <summary>
+    Records the outcome of actor navigation gating decisions. Recorded every
+    time the actor attempts to navigate to a new URL and the origin gating
+    feature is enabled.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.PermissionGranted" enum="Boolean"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records when actor is given permission to continue navigating after
+    navigation gating has already applied. Recorded when the browser receives
+    the response from its confirmation request.
+  </summary>
+</histogram>
+
+<histogram name="Actor.NavigationGating.TimeElapsedForGating" units="ms"
+    expires_after="2026-03-30">
+  <owner>dylancutler@google.com</owner>
+  <owner>johannhof@google.com</owner>
+  <summary>
+    Records how long origin gating processing is taking when it decides if an
+    actor can navigate to a new origin. Recorded when the actor navigates the
+    main frame.
+  </summary>
+</histogram>
+
+<histogram name="Actor.PageContext.APC.Duration" units="ms"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    Duration of fetching of the annotated page context for the PerformActions
+    response.
+  </summary>
+</histogram>
+
+<histogram name="Actor.PageContext.Screenshot.Duration" units="ms"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>Duration of screenshot for the PerformActions response.</summary>
+</histogram>
+
+<histogram name="Actor.PageContext.TabCount" units="count"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>Number of tabs to observe in PerformActions response.</summary>
+</histogram>
+
+<histogram name="Actor.Task.Count.{StoppedReason}" units="count"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>erikchen@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    Recorded when a task is stopped with {StoppedReason}. This captures the
+    number of the actions in the task.
+  </summary>
+  <token key="StoppedReason" variants="StoppedReason"/>
+</histogram>
+
+<histogram name="Actor.Task.Created" enum="Boolean" expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Recorded when a task is triggered for the first time. If the browser has
+    actuation capability, this will be recorded as true, else it will be false.
+  </summary>
+</histogram>
+
+<histogram name="Actor.Task.Duration.NotVisible.{StoppedReason}" units="ms"
+    expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Recorded when a task is stopped with {StoppedReason}. This captures the
+    total time the task was actuating while all of its controlled tabs are not
+    visible (when tab contents are OCCLUDED or HIDDEN).
+
+    This excludes time spent in paused states.
+  </summary>
+  <token key="StoppedReason" variants="StoppedReason"/>
+</histogram>
+
+<histogram name="Actor.Task.Duration.Visible.{StoppedReason}" units="ms"
+    expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Recorded when a task is stopped with {StoppedReason}. This captures the
+    total time the task was actuating while at least one of its controlled tabs
+    is visible.
+
+    This excludes time spent in paused states.
+  </summary>
+  <token key="StoppedReason" variants="StoppedReason"/>
+</histogram>
+
+<histogram name="Actor.Task.Duration.WallClock.{StoppedReason}" units="ms"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    Recorded when a task is stopped with {StoppedReason}. This captures the
+    runtime of the task including any paused state.
+  </summary>
+  <token key="StoppedReason" variants="StoppedReason"/>
+</histogram>
+
+<histogram name="Actor.Task.Duration.{StoppedReason}" units="ms"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>erikchen@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    Recorded when a task is stopped with {StoppedReason}. This captures the
+    runtime of the task excluding any paused state.
+  </summary>
+  <token key="StoppedReason" variants="StoppedReason"/>
+</histogram>
+
+<histogram name="Actor.Task.Interruptions.{StoppedReason}" units="count"
+    expires_after="2026-08-11">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    Recorded when a task is stopped with {StoppedReason}. This captures the
+    number of times the task was interrupted.
+  </summary>
+  <token key="StoppedReason" variants="StoppedReason"/>
+</histogram>
+
+<histogram name="Actor.Task.StateTransition.ActionCount.{OldState}_{NewState}"
+    units="count" expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Recorded when a task makes a state transition from the old state
+    ({OldState}) to the new state ({NewState}). This captures the number of
+    actions the task made in the first state ({OldState}) before the transition.
+  </summary>
+  <token key="OldState" variants="ActorTaskState"/>
+  <token key="NewState" variants="ActorTaskState"/>
+</histogram>
+
+<histogram name="Actor.Task.StateTransition.Duration.{ActorTaskState}"
+    units="ms" expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Recorded when a task makes a state transition. This captures the duration of
+    time the task spent in the {ActorTaskState} state.
+  </summary>
+  <token key="ActorTaskState" variants="ActorTaskState"/>
+</histogram>
+
+<histogram name="Actor.Tools.ExecutionDuration.{ToolRequest}" units="ms"
+    expires_after="2026-09-17">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    The duration of how long a given tool took to execute when it was
+    successful.
+  </summary>
+  <token key="ToolRequest" variants="ToolRequest"/>
+</histogram>
+
+<histogram name="Actor.Tools.PageStabilization.{ToolRequest}" units="ms"
+    expires_after="2026-09-17">
+  <owner>dtapuska@google.com</owner>
+  <owner>bokan@google.com</owner>
+  <owner>chrome-synapse-team@google.com</owner>
+  <summary>
+    The duration of how long a given tool took to stabilize after execution when
+    it was successful.
+  </summary>
+  <token key="ToolRequest" variants="ToolRequest"/>
+</histogram>
+
+<histogram name="Actor.Tools.TimeOfUseValidation" enum="TimeOfUseResult"
+    expires_after="2026-09-17">
+  <owner>mfoltz@google.com</owner>
+  <owner>rodneyding@google.com</owner>
+  <summary>
+    The result of Time-Of-Check Time-Of-Use validation performed before a tool
+    is invoked on a DOM element in a Web page.
+  </summary>
+</histogram>
+
+<histogram name="Actor.Ui.TabController.Error" enum="ActorUiTabControllerError"
+    expires_after="2026-08-11">
+  <owner>kenok@google.com</owner>
+  <owner>chrstne@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>Recorded when an error happens in the ActorUiTabController.</summary>
+</histogram>
+
+<histogram name="Actor.UiTabController.NumberOfPendingCallbacks"
+    units="callbacks" expires_after="2026-08-11">
+  <owner>chrstne@google.com</owner>
+  <owner>kenok@google.com</owner>
+  <owner>koilos@google.com</owner>
+  <summary>
+    Reports the number of pending callbacks for async ui calls before the
+    callbacks are invoked in ActorUiTabController.
+  </summary>
+</histogram>
+
+</histograms>
+
+</histogram-configuration>
